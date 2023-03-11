@@ -275,6 +275,17 @@ fn handle_option_f64(handle: Option<f64>) -> String {
     }
 }
 
+fn strip_trailing_nl(input: &mut String) {
+    let new_len = input
+        .char_indices()
+        .rev()
+        .find(|(_, c)| !matches!(c, '\n' | '\r'))
+        .map_or(0, |(i, _)| i + 1);
+    if new_len != input.len() {
+        input.truncate(new_len);
+    }
+}
+
 impl std::fmt::Display for Countries {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let mut value = format!("{:?}", self);
@@ -299,7 +310,7 @@ fn main() {
         std::io::stdin()
             .read_line(&mut read_api_key)
             .expect("failure reading from stdin");
-        api_key = read_api_key;
+        api_key = strip_trailing_nl(read_api_key);
         std::fs::write(path, &api_key).expect("failure writing to file");
     }
     let agent: Agent = AgentBuilder::new()
