@@ -289,10 +289,9 @@ fn strip_trailing_nl(input: &mut String) {
 impl std::fmt::Display for Countries {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let mut value = format!("{:?}", self);
-        if value == "Guinea_Bissau" {
-            value = "Guinea-Bissau".to_string();
-        } else {
-            value = str::replace(value.as_str(), "_", " ");
+        value = match value {
+            "Guinea_Bissau" => "Guinea-Bissau".to_string(),
+            _ => str::replace(value.as_str(), "_", " "),
         }
         write!(f, "{}", value)
     }
