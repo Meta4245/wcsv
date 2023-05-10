@@ -292,7 +292,7 @@ impl std::fmt::Display for Countries {
         value = match value {
             "Guinea_Bissau" => "Guinea-Bissau".to_string(),
             _ => str::replace(value.as_str(), "_", " "),
-        }
+        };
         write!(f, "{}", value)
     }
 }
